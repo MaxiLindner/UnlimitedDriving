@@ -1,8 +1,8 @@
-import React, {createContext, useContext, useReducer, useEffect} from 'react'
 import {ClubDefinitions} from '../clubs/ClubDefinitions'
 import {type GameAction, GameReducer, type GameState} from "../game/GameReducer.ts";
 import {initialState} from "../store/InitialState.ts";
 import {useGameEngine} from "../game/UseGameEngine.ts";
+import React, {createContext, useContext, useEffect, useReducer} from "react";
 
 interface GameContextType {
     state: GameState
@@ -21,7 +21,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({children}
             try {
                 return JSON.parse(savedState);
             } catch (error) {
-                console.error('Fehler beim Laden des gespeicherten States:', error);
+                console.error('Error while loading the state:', error);
                 return initialState;
             }
         }

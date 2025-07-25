@@ -1,13 +1,13 @@
 {
-  "name": "golf-idle-game",
+  "name": "unlimited-driving",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
+    "dev": "node_modules/.bin/vite",
+    "build": "../golf-idle-game/node_modules/.bin/tsc -b && vite build",
+    "lint": "../golf-idle-game/node_modules/.bin/eslint src",
+    "preview": "../golf-idle-game/node_modules/.bin/vite preview",
     "run": "npm run dev"
   },
   "dependencies": {
