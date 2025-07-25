@@ -2,19 +2,24 @@ import {type ClubDefinition, ClubDefinitions} from '../clubs/ClubDefinitions'
 
 interface GameState {
     money: number;
+    incomePerSecond: number;
     clubs: Record<number, { owned: number }>;
 }
 
 interface GameAction {
-    type: 'ADD_MONEY' | 'ADD_CLUBS' | 'BUY_CLUB';
+    type: 'ADD_MONEY' | 'ADD_CLUBS' | 'BUY_CLUB' | 'UPDATE_INCOME';
     amount?: number;
     clubId?: number;
+    income?: number;
 }
 
 export const GameReducer = (state: GameState, action: GameAction): GameState => {
     switch (action.type) {
         case 'ADD_MONEY':
-            return { ...state, money: state.money + (action.amount || 0) }
+            return { 
+                ...state,
+                money: state.money + state.incomePerSecond
+            }
         case 'ADD_CLUBS':
             if (!action.clubId || !action.amount) return state
             return {
@@ -22,7 +27,8 @@ export const GameReducer = (state: GameState, action: GameAction): GameState => 
                 clubs: {
                     ...state.clubs,
                     [action.clubId]: { owned: state.clubs[action.clubId].owned + action.amount }
-                }
+                },
+                incomePerSecond: state.clubs[1].owned
             }
         case 'BUY_CLUB':
             if (!action.clubId) return state

@@ -1,5 +1,6 @@
 export const initialState = {
     money: 0,
+    incomePerSecond: 1,
     clubs: {
         1: { owned: 1 },
         2: { owned: 0 },

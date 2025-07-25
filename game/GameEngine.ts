@@ -16,8 +16,8 @@ export class GameEngine {
         this.stop()
 
         const moneyInterval = setInterval(() => {
-            const currentState = this.getState()
-            this.dispatch({ type: 'ADD_MONEY', amount: currentState.clubs[1].owned })
+            this.getState();
+            this.dispatch({ type: 'ADD_MONEY' })
         }, 1000)
 
         const clubProductionIntervals: number[] = []
