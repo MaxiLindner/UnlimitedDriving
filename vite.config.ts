@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // Fügen Sie diese Zeile hinzu
+  base: '/UnlimitedDriving/',
   build: {
     rollupOptions: {
       output: {
