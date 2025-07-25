@@ -1,7 +1,7 @@
 export const initialState = {
     money: 0,
     clubs: {
-        1: { owned: 10 },
+        1: { owned: 1 },
         2: { owned: 0 },
         3: { owned: 0 },
         4: { owned: 0 },

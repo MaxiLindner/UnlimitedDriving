@@ -27,26 +27,34 @@ export const GameReducer = (state: GameState, action: GameAction): GameState => 
         case 'BUY_CLUB':
             if (!action.clubId) return state
             const club: ClubDefinition = ClubDefinitions[action.clubId]
-            if (club.costType === 'money' && state.money >= club.cost) {
-                return {
+
+            // Check if player can afford the club
+            const hasEnoughMoney = state.money >= club.cost
+            const hasEnoughClubs = !club.clubCost ||
+                (club.id > 1 && state.clubs[club.id - 1]?.owned >= club.clubCost)
+
+            if (hasEnoughMoney && hasEnoughClubs) {
+                const newState = {
                     ...state,
                     money: state.money - club.cost,
                     clubs: {
                         ...state.clubs,
-                        [action.clubId]: { owned: state.clubs[action.clubId].owned + 1 }
+                        [action.clubId]: {
+                            owned: (state.clubs[action.clubId]?.owned || 0) + 1
+                        }
                     }
                 }
-            }
-            if (typeof club.costType === 'number' && state.clubs[club.costType].owned >= club.cost) {
-                return {
-                    ...state,
-                    clubs: {
-                        ...state.clubs,
-                        [club.costType]: { owned: state.clubs[club.costType].owned - club.cost },
-                        [action.clubId]: { owned: state.clubs[action.clubId].owned + 1 }
+
+                // Deduct club cost if applicable
+                if (club.clubCost && club.id > 1) {
+                    newState.clubs[club.id - 1] = {
+                        owned: state.clubs[club.id - 1].owned - club.clubCost
                     }
                 }
+
+                return newState
             }
+
             return state
         default:
             return state

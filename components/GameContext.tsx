@@ -10,7 +10,7 @@ interface GameContextType {
     clubDefinitions: typeof ClubDefinitions
 }
 
-const STORAGE_KEY = 'golf-game-state';
+const STORAGE_KEY = 'golf-game-states';
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
 

@@ -8,6 +8,7 @@ interface ClubCardProps {
         name: string
         cost: number
         costType: 'money' | number
+        clubCost?: number
         produces: 'money' | number
         revenue?: number
         productionTime?: number
@@ -18,12 +19,21 @@ export const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
     const { state, dispatch } = doGame()
 
     const owned = state.clubs[club.id]?.owned || 0
-    const canAfford = club.costType === 'money'
-        ? state.money >= club.cost
-        : state.clubs[club.costType].owned >= club.cost
+    const hasEnoughMoney = state.money >= club.cost
+    const hasEnoughClubs = !club.clubCost ||
+        (club.id > 1 && (state.clubs[club.id - 1]?.owned || 0) >= club.clubCost)
+
+    const canAfford = hasEnoughMoney && hasEnoughClubs
 
     const handleBuy = () => {
         dispatch({ type: 'BUY_CLUB', clubId: club.id })
+    }
+
+    const getPreviousClubName = () => {
+        if (club.id > 1) {
+            return ClubDefinitions[club.id - 1].name
+        }
+        return ''
     }
 
     return (
@@ -39,7 +49,12 @@ export const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
                 Owned: {owned}
             </div>
             <div style={{ margin: '10px 0' }}>
-                Cost: {club.cost} {club.costType === 'money' ? '$' : 'clubs'}
+                Cost: ${club.cost}
+                {club.clubCost && (
+                    <div style={{ fontSize: '12px', color: '#666' }}>
+                        + {club.clubCost} {getPreviousClubName()}
+                    </div>
+                )}
             </div>
             {club.produces === 'money' && (
                 <div style={{ fontSize: '12px', color: '#666' }}>
@@ -68,6 +83,16 @@ export const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
             >
                 Buy
             </button>
+            {!hasEnoughMoney && (
+                <div style={{ fontSize: '10px', color: 'red', marginTop: '5px' }}>
+                    Not enough money
+                </div>
+            )}
+            {!hasEnoughClubs && club.clubCost && (
+                <div style={{ fontSize: '10px', color: 'red', marginTop: '5px' }}>
+                    Need {club.clubCost} {getPreviousClubName()}
+                </div>
+            )}
         </div>
     )
 }
