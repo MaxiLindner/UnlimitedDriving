@@ -1,4 +1,5 @@
 import {ClubDefinitions} from '../clubs/ClubDefinitions'
+import {UpgradeDefinitions} from '../upgrades/UpgradeDefinitions'
 import {type GameAction, GameReducer, type GameState} from "../game/GameReducer.ts";
 import {initialState} from "../store/InitialState.ts";
 import {useGameEngine} from "../game/UseGameEngine.ts";
@@ -8,9 +9,10 @@ interface GameContextType {
     state: GameState
     dispatch: React.Dispatch<GameAction>
     clubDefinitions: typeof ClubDefinitions
+    upgradeDefinitions: typeof UpgradeDefinitions
 }
 
-const STORAGE_KEY = 'golf-game-states';
+const STORAGE_KEY = 'golf-game-stati';
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
 
@@ -37,7 +39,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({children}
     useGameEngine(dispatch, state)
 
     return (
-        <GameContext.Provider value={{state, dispatch, clubDefinitions: ClubDefinitions}}>
+        <GameContext.Provider value={{
+            state,
+            dispatch,
+            clubDefinitions: ClubDefinitions,
+            upgradeDefinitions: UpgradeDefinitions
+        }}>
             {children}
         </GameContext.Provider>
     )

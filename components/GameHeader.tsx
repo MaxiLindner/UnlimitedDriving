@@ -7,7 +7,13 @@ export const GameHeader: React.FC = () => {
     console.log(state)
 
     return (
-        <div className="GameHeader" style={{ marginBottom: '30px', textAlign: 'center' }}>
+        <div className="GameHeader" style={{
+            width: '100%',
+            marginBottom: '30px',
+            textAlign: 'center',
+            padding: '20px 0',
+            backgroundColor: '#f8f9fa'
+        }}>
             <h1>Putting makes the MONEY</h1>
             <div className="MoneyDisplay" style={{
                 fontSize: '24px',
@@ -15,7 +21,7 @@ export const GameHeader: React.FC = () => {
                 color: 'green',
                 display: 'flex',
                 justifyContent: 'center',
-                gap: '20px'
+                gap: '20px',
             }}>
                 <span>${state.money.toFixed(2)}</span>
                 <span>(+${state.incomePerSecond.toFixed(2)}/s)</span>

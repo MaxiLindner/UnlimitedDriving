@@ -1,5 +1,5 @@
 import React from 'react'
-import {doGame} from "./GameContext.tsx";
+import {doGame} from "../../GameContext.tsx";
 import {ClubCard} from "./ClubCard.tsx";
 
 export const ClubList: React.FC = () => {
